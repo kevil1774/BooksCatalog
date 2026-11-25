@@ -1,0 +1,17 @@
+
+{
+  "name": "bookscatalog",
+  "version": "1.0.0",
+  "description": "Bookshelf - Book Catalog using MVC architecture",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "express": "^5.3.0"
+  }
+}

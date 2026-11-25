@@ -1,0 +1,293 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Readwell | Discover Your Next Read</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="app-container">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+
+            <a href="#" class="logo">Read<span>well.</span></a>
+
+            <p class="menu-label">MENU</p>
+
+            <nav class="side-nav">
+
+                <a href="#home" class="nav-link active">
+                    <span>⌂</span> Home
+                </a>
+
+                <a href="#library" class="nav-link">
+                    <span>▤</span> My Library
+                </a>
+
+            </nav>
+
+        </aside>
+
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content" id="home">
+
+
+            <!-- TOP HEADER -->
+            <header class="top-header">
+
+                <div class="mobile-logo">
+                    Read<span>well.</span>
+                </div>
+
+                <div class="search-box">
+
+                    <span>⌕</span>
+
+                    <input
+                        type="text"
+                        id="search-input"
+                        placeholder="Search books, authors or genres..."
+                    >
+
+                    <button id="clear-search" aria-label="Clear search">
+                        ×
+                    </button>
+
+                </div>
+
+                <div class="profile">
+
+                    <div class="profile-avatar">R</div>
+
+                    <div class="profile-info">
+                        <strong>Reader</strong>
+                        <small>Book lover</small>
+                    </div>
+
+                </div>
+
+            </header>
+
+
+            <!-- CINEMATIC HERO SECTION -->
+            <section class="hero-section" id="featured-book">
+
+                <div class="hero-background">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1448375240586-882707db888b?w=1600"
+                        alt="Atmospheric forest background"
+                    >
+
+                </div>
+
+                <div class="hero-overlay"></div>
+
+                <div class="hero-content">
+
+                    <p class="hero-label">
+                        ✦ FEATURED FROM YOUR COLLECTION
+                    </p>
+
+                    <span class="hero-genre" id="hero-genre">
+                        SCIENCE FICTION
+                    </span>
+
+                    <h1 id="hero-title">
+                        The Three-Body Problem
+                    </h1>
+
+                    <p class="hero-author" id="hero-author">
+                        By Liu Cixin
+                    </p>
+
+                    <p class="hero-description" id="hero-summary">
+                        Discover an extraordinary story about Earth
+                        and an alien civilization from a distant
+                        three-star system.
+                    </p>
+
+                    <div class="hero-meta">
+                        <span id="hero-year">2008</span>
+                        <span>•</span>
+                        <span>From your library</span>
+                    </div>
+
+                    <div class="hero-buttons">
+
+                        <button class="primary-button" id="hero-details">
+                            <span>↗</span> Explore Book
+                        </button>
+
+                        <a href="#library" class="secondary-button">
+                            Browse Collection
+                        </a>
+
+                    </div>
+
+                </div>
+
+                <div class="hero-decoration">READWELL</div>
+
+            </section>
+
+
+            <!-- COLLECTION SECTION -->
+            <section class="collection-section" id="library">
+
+                <div class="section-heading">
+
+                    <div>
+                        <p class="eyebrow">YOUR PERSONAL COLLECTION</p>
+                        <h2>Discover Your Library</h2>
+                        <p class="section-description">
+                            Beautiful stories, waiting to be explored.
+                        </p>
+                    </div>
+
+                    <span class="collection-count" id="book-count">
+                        05 BOOKS
+                    </span>
+
+                </div>
+
+
+                <!-- BOOK POSTER CAROUSEL -->
+                <div class="poster-section">
+
+                    <div class="poster-heading">
+                        <h3>My Bookshelf</h3>
+                        <span>YOUR COLLECTION</span>
+                    </div>
+
+                    <div class="poster-container" id="shelf-container">
+
+                        <p class="loading">
+                            Loading your collection...
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- LIBRARY INFORMATION -->
+                <div class="library-info">
+
+                    <div class="info-card">
+
+                        <span class="info-icon">▤</span>
+
+                        <div>
+                            <h3 id="total-books">05</h3>
+                            <p>Books in Collection</p>
+                        </div>
+
+                    </div>
+
+                    <div class="info-card">
+
+                        <span class="info-icon">✧</span>
+
+                        <div>
+                            <h3 id="total-genres">04</h3>
+                            <p>Different Genres</p>
+                        </div>
+
+                    </div>
+
+                    <div class="info-card">
+
+                        <span class="info-icon">✦</span>
+
+                        <div>
+                            <h3>∞</h3>
+                            <p>Stories to Discover</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- FOOTER -->
+            <footer>
+
+                <a href="#" class="logo">
+                    Read<span>well.</span>
+                </a>
+
+                <p>© 2026 Readwell. Made for book lovers.</p>
+
+            </footer>
+
+        </main>
+
+    </div>
+
+
+    <!-- BOOK DETAILS MODAL -->
+    <div class="modal" id="book-modal">
+
+        <div class="modal-content">
+
+            <button class="close-modal" id="close-modal" aria-label="Close">
+                &times;
+            </button>
+
+            <div class="modal-layout">
+
+                <!-- BOOK COVER -->
+                <div class="modal-cover">
+
+                    <img
+                        id="modal-cover"
+                        src=""
+                        alt="Book cover"
+                    >
+
+                </div>
+
+
+                <!-- BOOK INFORMATION -->
+                <div class="modal-info">
+
+                    <p class="eyebrow" id="modal-genre"></p>
+
+                    <h2 id="modal-title"></h2>
+
+                    <p class="modal-author" id="modal-author"></p>
+
+                    <p class="modal-year" id="modal-year"></p>
+
+                    <div class="modal-divider"></div>
+
+                    <h3>About this book</h3>
+
+                    <p id="modal-summary"></p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- JAVASCRIPT -->
+    <script src="script.js"></script>
+
+</body>
+</html>
