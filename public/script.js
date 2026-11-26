@@ -15,13 +15,20 @@ const modalCover = document.getElementById("modal-cover");
 
 let books = [];
 let featuredBook = null;
-
-const coverCache = new Map();
+let selectedModalBook = null;
 
 
 // =====================================
-// FALLBACK COVER COLOURS
+// LOCAL BOOK COVER IMAGES
 // =====================================
+
+const bookCovers = {
+    b1: "/images/three-body.jpg",
+    b2: "/images/jane-eyre.jpg",
+    b3: "/images/pride-prejudice.jpg",
+    b4: "/images/english-patient.jpg",
+    b5: "/images/small-gods.jpg"
+};
 
 const coverColors = [
     "#B9C9C2",
@@ -62,6 +69,7 @@ async function loadBooks() {
             '<p class="empty-shelf">Unable to load your library.</p>';
 
         console.error("Book loading error:", error);
+
     }
 }
 
@@ -81,6 +89,7 @@ function updateStatistics() {
 
     document.getElementById("total-genres").textContent =
         String(genres.size).padStart(2, "0");
+
 }
 
 
@@ -106,56 +115,18 @@ function displayFeaturedBook(book) {
 
     document.getElementById("hero-year").textContent =
         book.year;
+
 }
 
 
 // =====================================
-// GET REAL BOOK COVER
+// GET LOCAL BOOK COVER
 // =====================================
 
-async function getBookCover(book) {
+function getBookCover(book) {
 
-    const bookKey = String(book.id);
+    return bookCovers[String(book.id)] || null;
 
-    if (coverCache.has(bookKey)) {
-        return coverCache.get(bookKey);
-    }
-
-    try {
-
-        const query = encodeURIComponent(
-            `title:${book.title} author:${book.author}`
-        );
-
-        const response = await fetch(
-            `https://openlibrary.org/search.json?q=${query}&limit=1`
-        );
-
-        if (!response.ok) return null;
-
-        const data = await response.json();
-
-        const coverId = data.docs?.[0]?.cover_i;
-
-        if (coverId) {
-
-            const coverUrl =
-                `https://covers.openlibrary.org/b/id/${coverId}-L.jpg`;
-
-            coverCache.set(bookKey, coverUrl);
-
-            return coverUrl;
-        }
-
-    } catch (error) {
-
-        console.log("Cover unavailable:", book.title);
-
-    }
-
-    coverCache.set(bookKey, null);
-
-    return null;
 }
 
 
@@ -176,6 +147,7 @@ function displayBooks(data) {
             '<p class="empty-shelf">No books found. Try another search.</p>';
 
         return;
+
     }
 
     data.forEach(book => {
@@ -185,6 +157,7 @@ function displayBooks(data) {
         shelfContainer.appendChild(card);
 
     });
+
 }
 
 
@@ -212,6 +185,23 @@ function createBookCard(book) {
     image.alt = `${book.title} book cover`;
     image.loading = "lazy";
 
+    const coverUrl = getBookCover(book);
+
+    if (coverUrl) {
+
+        image.src = coverUrl;
+
+        image.onload = () => {
+            image.classList.add("loaded");
+        };
+
+        image.onerror = () => {
+            console.error("Unable to load cover:", coverUrl);
+            image.removeAttribute("src");
+        };
+
+    }
+
     const fallback = document.createElement("div");
     fallback.className = "cover-fallback";
 
@@ -225,25 +215,6 @@ function createBookCard(book) {
 
     fallback.append(title, author);
     cover.append(image, fallback);
-
-    // Load actual cover artwork
-
-    getBookCover(book).then(coverUrl => {
-
-        if (coverUrl) {
-
-            image.src = coverUrl;
-
-            image.onload = () => {
-                image.classList.add("loaded");
-            };
-
-            image.onerror = () => {
-                image.removeAttribute("src");
-            };
-        }
-
-    });
 
     const bookTitle = document.createElement("h4");
     bookTitle.textContent = book.title;
@@ -263,6 +234,7 @@ function createBookCard(book) {
     });
 
     return item;
+
 }
 
 
@@ -283,6 +255,7 @@ function searchBooks() {
     );
 
     displayBooks(filteredBooks);
+
 }
 
 
@@ -317,9 +290,9 @@ heroDetails.addEventListener("click", () => {
 // BOOK DETAILS MODAL
 // =====================================
 
-async function showBookDetails(book) {
+function showBookDetails(book) {
 
-    // Display book information
+    selectedModalBook = book;
 
     document.getElementById("modal-genre").textContent =
         book.genre;
@@ -336,35 +309,29 @@ async function showBookDetails(book) {
     document.getElementById("modal-summary").textContent =
         book.summary;
 
-    // Open modal immediately
+    // Load local book cover
 
     modalCover.style.display = "none";
     modalCover.removeAttribute("src");
 
     modal.classList.add("show");
 
-    // Load book cover in the background
-
-    const coverUrl = await getBookCover(book);
-
-    // Check whether the same book is still selected
-
-    if (
-        !modal.classList.contains("show") ||
-        document.getElementById("modal-title").textContent !== book.title
-    ) {
-        return;
-    }
+    const coverUrl = getBookCover(book);
 
     if (coverUrl) {
 
-        modalCover.src = coverUrl;
-        modalCover.style.display = "block";
+        modalCover.onload = () => {
+            modalCover.style.display = "block";
+        };
 
         modalCover.onerror = () => {
             modalCover.style.display = "none";
         };
+
+        modalCover.src = coverUrl;
+
     }
+
 }
 
 
@@ -375,6 +342,7 @@ async function showBookDetails(book) {
 function hideModal() {
 
     modal.classList.remove("show");
+    selectedModalBook = null;
 
 }
 
